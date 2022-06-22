@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="DESKTOP-LENOVO_SQLEXPRESS.VentasDM"
+  DTS:DTSID="{FF4E58AE-2B33-4E08-88CB-774CA6649E18}"
+  DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=DESKTOP-LENOVO\SQLEXPRESS;Initial Catalog=VentasDM;Integrated Security=True;Application Name=SSIS-IncrementalDM-{FF4E58AE-2B33-4E08-88CB-774CA6649E18}DESKTOP-LENOVO\SQLEXPRESS.VentasDM;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
