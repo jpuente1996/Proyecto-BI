@@ -6,3 +6,7 @@ En este repositorio trato de subir todos mis proyectos con data encontrada en di
 ###### 2.- Reporte de Ventas: Este pequeño trabajo es un reporte de analisis de datos de las ventas de una empresa, la carpeta viene con el excel que se utilizo para este reporte.
 
 
+###### 3.- Reporte de Desembolsos: Este pequeño trabajo es un reporte de analisis de datos de los desembolsos de una empresa, en este caso se trabajo con varios archivos y se utilizo append para unificar 3 excels sobre la data de desembolsos. Todos los datos trabajados estan en la carpeta.
+
+
+
