@@ -1,1 +1,4 @@
 # Proyecto-BI
+En este repositorio trato de subir todos mis proyectos con data encontrada en diferentes fuentes, para ir desarrollando habilidades de analisis de datos y convertir la data encontrada en informacion, para poder demostrar la habilidades aprendidas en el dia a día. Voy a tratar de resumir lo que se sube en cada carpeta:
+
+###### 1.- ETL INCREMENTAL: Este pequeño trabajo fue realizado con la herramienta de Integration Service, en la cual realiza un ETL con data desde un SQL SERVER, se crea dos base tablas, una donde se encuentra la data "ORIGEN" y la otra se llamara la tabla "Destino", en este caso  si en la tabla Origen se carga un nuevo regsitro, el ETL podra verificar y actualizar la tabla destino insertando el nuevo dato, de esta manera no se creará un nuevo ETL cada vez que se la tabla origen sufra una nueva actualizacion.

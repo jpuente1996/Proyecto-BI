@@ -1,0 +1,1826 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/2/2022 6:54:19 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-LENOVO"
+  DTS:CreatorName="DESKTOP-LENOVO\jose_"
+  DTS:DTSID="{FAD0C59C-5B1B-4505-8107-9C874DB35443}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="10250"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{A27D0EB6-6652-469A-B201-D4006A0DBDFD}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Incrementar Productos"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{65C61FE2-92BE-44F2-A986-BD681BBC0DE4}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Incrementar Productos"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Incrementar Productos\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Incrementar Productos\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Conditional Split.Inputs[Conditional Split Input].Columns[IdProductoDM]"
+                      cachedDataType="i4"
+                      cachedName="IdProductoDM"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[IdProductoDM]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Conditional Split.Outputs[Nuevo Registro]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Nuevo Registro"
+                  synchronousInputId="Package\Incrementar Productos\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[IdProductoDM]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(IdProductoDM)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Incrementar Productos\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Incrementar Productos\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Incrementar Productos\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Incrementar Productos\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incrementar Productos\Insertar los nuevos productos al DM"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Carga datos en una base de datos compatible con ADO.NET que use una vista o tabla de base de datos. Se cargan datos en una tabla nueva o existente. Por ejemplo, se usa un proveedor ADO.NET para ODBC para cargar datos en un destino ODBC.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;2"
+              description="Carga datos en una base de datos compatible con ADO.NET que use una vista o tabla de base de datos. Se cargan datos en una tabla nueva o existente. Por ejemplo, se usa un proveedor ADO.NET para ODBC para cargar datos en un destino ODBC."
+              name="Insertar los nuevos productos al DM"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Nombre de la tabla de la base de datos de destino."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"dbo"."Dim_Producto"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifique el número de filas por lote. El valor predeterminado es 0, que utiliza el mismo tamaño que el búfer interno de SSIS. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Especifica si se debe usar la interfaz SqlBulkCopy para mejorar el rendimiento de las operaciones de inserción masiva. No todos los proveedores admiten esta interfaz."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Connections[IDbConnection]"
+                  connectionManagerID="{FF4E58AE-2B33-4E08-88CB-774CA6649E18}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-LENOVO_SQLEXPRESS.VentasDM]"
+                  description="Administrador de conexiones administrado"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de destino de ADO NET">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[idSeccion]"
+                      cachedDataType="i4"
+                      cachedName="idSeccion"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdSeccion]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idSeccion]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[NombreSeccion]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreSeccion"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreSeccion]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreSeccion]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[idRubro]"
+                      cachedDataType="i4"
+                      cachedName="idRubro"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdRubro]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idRubro]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[NombreRubro]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreRubro"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreRubro]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreRubro]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[idCategoria]"
+                      cachedDataType="i4"
+                      cachedName="idCategoria"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdCategoria]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idCategoria]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[NombreCategoria]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreCategoria"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreCategoria]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreCategoria]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[idFamilia]"
+                      cachedDataType="i4"
+                      cachedName="idFamilia"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdFamilia]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[NombreFamilia]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreFamilia"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreFamilia]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[idSubFamilia]"
+                      cachedDataType="i4"
+                      cachedName="idSubFamilia"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdSubFamilia]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idSubFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[NombreSubFamilia]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreSubFamilia"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreSubFamilia]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreSubFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[idProducto]"
+                      cachedDataType="i4"
+                      cachedName="idProducto"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdProducto]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idProducto]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].Columns[NombreProducto]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreProducto"
+                      externalMetadataColumnId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreProducto]"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreProducto]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[Producto_Key]"
+                      dataType="i4"
+                      name="Producto_Key" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdProducto]"
+                      dataType="i4"
+                      name="IdProducto" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdSubFamilia]"
+                      dataType="i4"
+                      name="IdSubFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdFamilia]"
+                      dataType="i4"
+                      name="IdFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdCategoria]"
+                      dataType="i4"
+                      name="IdCategoria" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdRubro]"
+                      dataType="i4"
+                      name="IdRubro" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[IdSeccion]"
+                      dataType="i4"
+                      name="IdSeccion" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreProducto]"
+                      dataType="wstr"
+                      length="50"
+                      name="NombreProducto" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreSubFamilia]"
+                      dataType="wstr"
+                      length="50"
+                      name="NombreSubFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreFamilia]"
+                      dataType="wstr"
+                      length="50"
+                      name="NombreFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreCategoria]"
+                      dataType="wstr"
+                      length="50"
+                      name="NombreCategoria" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreRubro]"
+                      dataType="wstr"
+                      length="50"
+                      name="NombreRubro" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET].ExternalColumns[NombreSeccion]"
+                      dataType="wstr"
+                      length="50"
+                      name="NombreSeccion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Outputs[Salida de error de destino de ADO NET]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de destino de ADO NET"
+                  synchronousInputId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Outputs[Salida de error de destino de ADO NET].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Outputs[Salida de error de destino de ADO NET].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Outputs[Salida de error de destino de ADO NET].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Outputs[Salida de error de destino de ADO NET].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incrementar Productos\Leer DIM Producto Data Mart"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consume datos de SQL Server, OLE DB, ODBC u Oracle mediante el correspondiente proveedor de datos de .NET Framework. Se usa una instrucción Transact-SQL para definir el conjunto de resultados. Por ejemplo, se extraen datos de SQL Server con el proveedor de datos de .NET Framework para SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;4"
+              description="Consume datos de SQL Server, OLE DB, ODBC u Oracle mediante el correspondiente proveedor de datos de .NET Framework. Se usa una instrucción Transact-SQL para definir el conjunto de resultados. Por ejemplo, se extraen datos de SQL Server con el proveedor de datos de .NET Framework para SQL Server."
+              name="Leer DIM Producto Data Mart"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Especifica la instrucción SQL utilizada por el componente para extraer datos."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT IdProducto
+FROM     Dim_Producto</property>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si se debe permitir que columnas externas que no sean de cadenas se conviertan implícitamente en cadenas en las columnas de salida."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="Nombre de la tabla de la base de datos de origen."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especificar el modo de recuperar información de columnas externas"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Connections[IDbConnection]"
+                  connectionManagerID="{FF4E58AE-2B33-4E08-88CB-774CA6649E18}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-LENOVO_SQLEXPRESS.VentasDM]"
+                  description="Administrador de conexiones administrado"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET]"
+                  name="Salida de origen de ADO NET">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET].Columns[IdProducto]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET].ExternalColumns[IdProducto]"
+                      lineageId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET].Columns[IdProducto]"
+                      name="IdProducto"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET].ExternalColumns[IdProducto]"
+                      dataType="i4"
+                      name="IdProducto" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET]"
+                  isErrorOut="true"
+                  name="Salida de error de origen de ADO NET">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET].Columns[IdProducto]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET].Columns[IdProducto]"
+                      name="IdProducto" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de error de origen de ADO NET].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incrementar Productos\Leer Productos Data Stage"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consume datos de SQL Server, OLE DB, ODBC u Oracle mediante el correspondiente proveedor de datos de .NET Framework. Se usa una instrucción Transact-SQL para definir el conjunto de resultados. Por ejemplo, se extraen datos de SQL Server con el proveedor de datos de .NET Framework para SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;4"
+              description="Consume datos de SQL Server, OLE DB, ODBC u Oracle mediante el correspondiente proveedor de datos de .NET Framework. Se usa una instrucción Transact-SQL para definir el conjunto de resultados. Por ejemplo, se extraen datos de SQL Server con el proveedor de datos de .NET Framework para SQL Server."
+              name="Leer Productos Data Stage"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Especifica la instrucción SQL utilizada por el componente para extraer datos."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT Seccion.idSeccion, Seccion.NombreSeccion, Rubro.idRubro, Rubro.NombreRubro, Categoria.idCategoria, Categoria.NombreCategoria, Familia.idFamilia, Familia.NombreFamilia, SubFamilia.idSubFamilia, SubFamilia.NombreSubFamilia, 
+                  Producto.idProducto, Producto.NombreProducto
+FROM     Categoria INNER JOIN
+                  Familia ON Categoria.idCategoria = Familia.idCategoria INNER JOIN
+                  Rubro ON Categoria.idRubro = Rubro.idRubro INNER JOIN
+                  Seccion ON Rubro.idSeccion = Seccion.idSeccion INNER JOIN
+                  SubFamilia ON Familia.idFamilia = SubFamilia.idFamilia INNER JOIN
+                  Producto ON SubFamilia.idSubFamilia = Producto.idSubFamilia</property>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si se debe permitir que columnas externas que no sean de cadenas se conviertan implícitamente en cadenas en las columnas de salida."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="Nombre de la tabla de la base de datos de origen."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especificar el modo de recuperar información de columnas externas"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Incrementar Productos\Leer Productos Data Stage.Connections[IDbConnection]"
+                  connectionManagerID="{6D8BB55D-9DD6-42CC-A41A-C5F733053633}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-LENOVO_SQLEXPRESS.Venta]"
+                  description="Administrador de conexiones administrado"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET]"
+                  name="Salida de origen de ADO NET">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSeccion]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idSeccion]"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSeccion]"
+                      name="idSeccion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSeccion]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreSeccion]"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSeccion]"
+                      name="NombreSeccion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idRubro]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idRubro]"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idRubro]"
+                      name="idRubro"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreRubro]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreRubro]"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreRubro]"
+                      name="NombreRubro"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idCategoria]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idCategoria]"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idCategoria]"
+                      name="idCategoria"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreCategoria]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreCategoria]"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreCategoria]"
+                      name="NombreCategoria"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idFamilia]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idFamilia]"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idFamilia]"
+                      name="idFamilia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreFamilia]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreFamilia]"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreFamilia]"
+                      name="NombreFamilia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSubFamilia]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idSubFamilia]"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSubFamilia]"
+                      name="idSubFamilia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSubFamilia]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreSubFamilia]"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSubFamilia]"
+                      name="NombreSubFamilia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idProducto]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idProducto]"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idProducto]"
+                      name="idProducto"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreProducto]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreProducto]"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreProducto]"
+                      name="NombreProducto"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idSeccion]"
+                      dataType="i4"
+                      name="idSeccion" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreSeccion]"
+                      dataType="wstr"
+                      length="30"
+                      name="NombreSeccion" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idRubro]"
+                      dataType="i4"
+                      name="idRubro" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreRubro]"
+                      dataType="wstr"
+                      length="30"
+                      name="NombreRubro" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idCategoria]"
+                      dataType="i4"
+                      name="idCategoria" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreCategoria]"
+                      dataType="wstr"
+                      length="30"
+                      name="NombreCategoria" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idFamilia]"
+                      dataType="i4"
+                      name="idFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      name="NombreFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idSubFamilia]"
+                      dataType="i4"
+                      name="idSubFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreSubFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      name="NombreSubFamilia" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[idProducto]"
+                      dataType="i4"
+                      name="idProducto" />
+                    <externalMetadataColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].ExternalColumns[NombreProducto]"
+                      dataType="wstr"
+                      length="30"
+                      name="NombreProducto" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET]"
+                  isErrorOut="true"
+                  name="Salida de error de origen de ADO NET">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idSeccion]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idSeccion]"
+                      name="idSeccion" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreSeccion]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreSeccion]"
+                      name="NombreSeccion" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idRubro]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idRubro]"
+                      name="idRubro" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreRubro]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreRubro]"
+                      name="NombreRubro" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idCategoria]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idCategoria]"
+                      name="idCategoria" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreCategoria]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreCategoria]"
+                      name="NombreCategoria" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idFamilia]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idFamilia]"
+                      name="idFamilia" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreFamilia]"
+                      name="NombreFamilia" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idSubFamilia]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idSubFamilia]"
+                      name="idSubFamilia" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreSubFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreSubFamilia]"
+                      name="NombreSubFamilia" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idProducto]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[idProducto]"
+                      name="idProducto" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreProducto]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[NombreProducto]"
+                      name="NombreProducto" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de error de origen de ADO NET].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incrementar Productos\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idProducto]"
+                      cachedDataType="i4"
+                      cachedName="idProducto"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idProducto]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idSeccion]"
+                      cachedDataType="i4"
+                      cachedName="idSeccion"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idSeccion]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreSeccion]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreSeccion"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreSeccion]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idRubro]"
+                      cachedDataType="i4"
+                      cachedName="idRubro"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idRubro]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreRubro]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreRubro"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreRubro]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idCategoria]"
+                      cachedDataType="i4"
+                      cachedName="idCategoria"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idCategoria]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreCategoria]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreCategoria"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreCategoria]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idFamilia]"
+                      cachedDataType="i4"
+                      cachedName="idFamilia"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreFamilia]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreFamilia"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idSubFamilia]"
+                      cachedDataType="i4"
+                      cachedName="idSubFamilia"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idSubFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreSubFamilia]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreSubFamilia"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreSubFamilia]" />
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreProducto]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreProducto"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreProducto]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Right Input].Columns[IdProducto]"
+                      cachedDataType="i4"
+                      cachedName="IdProducto"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Incrementar Productos\Ordenar 2.Outputs[Sort Output].Columns[IdProducto]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idSeccion]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idSeccion]"
+                      name="idSeccion">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idSeccion]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreSeccion]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreSeccion]"
+                      name="NombreSeccion">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreSeccion]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idRubro]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idRubro]"
+                      name="idRubro">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idRubro]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreRubro]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreRubro]"
+                      name="NombreRubro">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreRubro]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idCategoria]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idCategoria]"
+                      name="idCategoria">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idCategoria]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreCategoria]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreCategoria]"
+                      name="NombreCategoria">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreCategoria]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idFamilia]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idFamilia]"
+                      name="idFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreFamilia]"
+                      name="NombreFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idSubFamilia]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idSubFamilia]"
+                      name="idSubFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idSubFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreSubFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreSubFamilia]"
+                      name="NombreSubFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreSubFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idProducto]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[idProducto]"
+                      name="idProducto"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[idProducto]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreProducto]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[NombreProducto]"
+                      name="NombreProducto">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input].Columns[NombreProducto]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[IdProductoDM]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output].Columns[IdProductoDM]"
+                      name="IdProductoDM">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Incrementar Productos\Merge Join.Inputs[Merge Join Right Input].Columns[IdProducto]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incrementar Productos\Ordenar 1"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Ordenar 1"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[idSeccion]"
+                      cachedDataType="i4"
+                      cachedName="idSeccion"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSeccion]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[NombreSeccion]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreSeccion"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSeccion]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[idRubro]"
+                      cachedDataType="i4"
+                      cachedName="idRubro"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idRubro]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[NombreRubro]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreRubro"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreRubro]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[idCategoria]"
+                      cachedDataType="i4"
+                      cachedName="idCategoria"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idCategoria]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[NombreCategoria]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreCategoria"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreCategoria]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[idFamilia]"
+                      cachedDataType="i4"
+                      cachedName="idFamilia"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idFamilia]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[NombreFamilia]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreFamilia"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreFamilia]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[idSubFamilia]"
+                      cachedDataType="i4"
+                      cachedName="idSubFamilia"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSubFamilia]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[NombreSubFamilia]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreSubFamilia"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSubFamilia]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[idProducto]"
+                      cachedDataType="i4"
+                      cachedName="idProducto"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idProducto]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input].Columns[NombreProducto]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="NombreProducto"
+                      lineageId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreProducto]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idSeccion]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idSeccion]"
+                      name="idSeccion">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSeccion]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreSeccion]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreSeccion]"
+                      name="NombreSeccion">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSeccion]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idRubro]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idRubro]"
+                      name="idRubro">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idRubro]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreRubro]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreRubro]"
+                      name="NombreRubro">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreRubro]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idCategoria]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idCategoria]"
+                      name="idCategoria">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idCategoria]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreCategoria]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreCategoria]"
+                      name="NombreCategoria">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreCategoria]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idFamilia]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idFamilia]"
+                      name="idFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreFamilia]"
+                      name="NombreFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idSubFamilia]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idSubFamilia]"
+                      name="idSubFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idSubFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreSubFamilia]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreSubFamilia]"
+                      name="NombreSubFamilia">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreSubFamilia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idProducto]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[idProducto]"
+                      name="idProducto"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[idProducto]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreProducto]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output].Columns[NombreProducto]"
+                      name="NombreProducto">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET].Columns[NombreProducto]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incrementar Productos\Ordenar 2"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Ordenar 2"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Incrementar Productos\Ordenar 2.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incrementar Productos\Ordenar 2.Inputs[Sort Input].Columns[IdProducto]"
+                      cachedDataType="i4"
+                      cachedName="IdProducto"
+                      lineageId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET].Columns[IdProducto]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incrementar Productos\Ordenar 2.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incrementar Productos\Ordenar 2.Outputs[Sort Output].Columns[IdProducto]"
+                      dataType="i4"
+                      lineageId="Package\Incrementar Productos\Ordenar 2.Outputs[Sort Output].Columns[IdProducto]"
+                      name="IdProducto"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET].Columns[IdProducto]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Incrementar Productos.Paths[Merge Join Output]"
+              endId="Package\Incrementar Productos\Conditional Split.Inputs[Conditional Split Input]"
+              name="Merge Join Output"
+              startId="Package\Incrementar Productos\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Incrementar Productos.Paths[Nuevo Registro]"
+              endId="Package\Incrementar Productos\Insertar los nuevos productos al DM.Inputs[Entrada de destino de ADO NET]"
+              name="Nuevo Registro"
+              startId="Package\Incrementar Productos\Conditional Split.Outputs[Nuevo Registro]" />
+            <path
+              refId="Package\Incrementar Productos.Paths[Salida de origen de ADO NET]"
+              endId="Package\Incrementar Productos\Ordenar 1.Inputs[Sort Input]"
+              name="Salida de origen de ADO NET"
+              startId="Package\Incrementar Productos\Leer Productos Data Stage.Outputs[Salida de origen de ADO NET]" />
+            <path
+              refId="Package\Incrementar Productos.Paths[Salida de origen de ADO NET1]"
+              endId="Package\Incrementar Productos\Ordenar 2.Inputs[Sort Input]"
+              name="Salida de origen de ADO NET"
+              startId="Package\Incrementar Productos\Leer DIM Producto Data Mart.Outputs[Salida de origen de ADO NET]" />
+            <path
+              refId="Package\Incrementar Productos.Paths[Sort Output]"
+              endId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\Incrementar Productos\Ordenar 1.Outputs[Sort Output]" />
+            <path
+              refId="Package\Incrementar Productos.Paths[Sort Output1]"
+              endId="Package\Incrementar Productos\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Incrementar Productos\Ordenar 2.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="183.2,41.6"
+          Id="Package\Incrementar Productos"
+          TopLeft="117.49999533097,75.4000005992254" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Incrementar Productos">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="203.2,41.6"
+          Id="Package\Incrementar Productos\Leer Productos Data Stage"
+          TopLeft="186.6666592492,83.2000006612142" />
+        <NodeLayout
+          Size="213.6,41.6"
+          Id="Package\Incrementar Productos\Leer DIM Producto Data Mart"
+          TopLeft="499.166646831566,88.4000007025401" />
+        <NodeLayout
+          Size="124.8,41.6"
+          Id="Package\Incrementar Productos\Ordenar 1"
+          TopLeft="229.999990860621,195.866668223275" />
+        <EdgeLayout
+          Id="Package\Incrementar Productos.Paths[Salida de origen de ADO NET]"
+          TopLeft="290.333325054911,124.800000661214">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71.066667562061"
+              Start="0,0"
+              End="0,63.566667562061">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.566667562061" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="124.8,41.6"
+          Id="Package\Incrementar Productos\Ordenar 2"
+          TopLeft="539.999978542329,183.733334793515" />
+        <EdgeLayout
+          Id="Package\Incrementar Productos.Paths[Salida de origen de ADO NET1]"
+          TopLeft="604.183312686947,130.00000070254">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.7333340909746"
+              Start="0,0"
+              End="0,46.2333340909746">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.2333340909746" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="129.6,41.6"
+          Id="Package\Incrementar Productos\Merge Join"
+          TopLeft="381.666651500597,310.266669132445" />
+        <EdgeLayout
+          Id="Package\Incrementar Productos.Paths[Sort Output]"
+          TopLeft="292.399990860621,237.466668223275">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="154.066660639975,72.8000009091694"
+              Start="0,0"
+              End="154.066660639975,65.3000009091694">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.4000004545847" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.4000004545847"
+                    Point2="0,36.4000004545847"
+                    Point3="4,36.4000004545847" />
+                  <mssgle:LineSegment
+                    End="150.066660639975,36.4000004545847" />
+                  <mssgle:CubicBezierSegment
+                    Point1="150.066660639975,36.4000004545847"
+                    Point2="154.066660639975,36.4000004545847"
+                    Point3="154.066660639975,40.4000004545847" />
+                  <mssgle:LineSegment
+                    End="154.066660639975,65.3000009091694" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incrementar Productos.Paths[Sort Output1]"
+          TopLeft="602.399978542329,225.333334793515">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-135.666660375066,84.9333343389299"
+              Start="0,0"
+              End="-135.666660375066,77.4333343389299">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.3385371813658" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,46.3385371813658"
+                    Point2="0,50.3385371813658"
+                    Point3="-4,50.3385371813658" />
+                  <mssgle:LineSegment
+                    End="-131.666660375066,50.3385371813658" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-131.666660375066,50.3385371813658"
+                    Point2="-135.666660375066,50.3385371813658"
+                    Point3="-135.666660375066,54.3385371813658" />
+                  <mssgle:LineSegment
+                    End="-135.666660375066,77.4333343389299" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\Incrementar Productos\Conditional Split"
+          TopLeft="379.166651599938,393.466669793659" />
+        <EdgeLayout
+          Id="Package\Incrementar Productos.Paths[Merge Join Output]"
+          TopLeft="446.466651500597,351.866669132445">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.50000009934109,41.6000006612143"
+              Start="0,0"
+              End="9.50000009934109,34.1000006612143">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.8000003306071" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.8000003306071"
+                    Point2="0,20.8000003306071"
+                    Point3="4,20.8000003306071" />
+                  <mssgle:LineSegment
+                    End="5.50000009934109,20.8000003306071" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.50000009934109,20.8000003306071"
+                    Point2="9.50000009934109,20.8000003306071"
+                    Point3="9.50000009934109,24.8000003306071" />
+                  <mssgle:LineSegment
+                    End="9.50000009934109,34.1000006612143" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="244,41.6"
+          Id="Package\Incrementar Productos\Insertar los nuevos productos al DM"
+          TopLeft="380.833318200377,483.600003843308" />
+        <EdgeLayout
+          Id="Package\Incrementar Productos.Paths[Nuevo Registro]"
+          TopLeft="455.966651599938,435.066669793659">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="46.8666666004395,48.5333340496487"
+              Start="0,0"
+              End="46.8666666004395,41.0333340496487">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2666670248244" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2666670248244"
+                    Point2="0,24.2666670248244"
+                    Point3="4,24.2666670248244" />
+                  <mssgle:LineSegment
+                    End="42.8666666004395,24.2666670248244" />
+                  <mssgle:CubicBezierSegment
+                    Point1="42.8666666004395,24.2666670248244"
+                    Point2="46.8666666004395,24.2666670248244"
+                    Point3="46.8666666004395,28.2666670248244" />
+                  <mssgle:LineSegment
+                    End="46.8666666004395,41.0333340496487" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-10.6436979497803,29.2666670248244,68.1540625,11.384765625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Incrementar Productos\Leer Productos Data Stage">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Incrementar Productos\Leer DIM Producto Data Mart">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Incrementar Productos\Insertar los nuevos productos al DM">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
