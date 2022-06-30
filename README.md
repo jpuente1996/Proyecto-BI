@@ -8,5 +8,5 @@ En este repositorio trato de subir todos mis proyectos con data encontrada en di
 
 ###### 3.- Reporte de Desembolsos: Este pequeño trabajo es un reporte de analisis de datos de los desembolsos de una empresa, en este caso se trabajo con varios archivos y se utilizo append para unificar 3 excels sobre la data de desembolsos. Todos los datos trabajados estan en la carpeta.
 
-
+###### 4.- Reporte de Planillas: Este pequeño trabajo es un reporte de analisis de datos de los RRHH de una empresa, aqui se trabaja con un poco mas de KPI´s y tambien metricas.
 
