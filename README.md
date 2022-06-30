@@ -10,3 +10,4 @@ En este repositorio trato de subir todos mis proyectos con data encontrada en di
 
 ###### 4.- Reporte de Planillas: Este pequeño trabajo es un reporte de analisis de datos de los RRHH de una empresa, aqui se trabaja con un poco mas de KPI´s y tambien metricas.
 
+###### 5.- Proyecto Etl: Este pequeño trabajo es un ETL de una data facilitada por un curso que encontré, se trata de cargar y transformar informacion estructurada y no estructurada de diferentes fuentes, y contenerlas en un DataWhareWouse, dentro de la carpeta esta la informacion en un ppt de lo que se realizo y tambien los scripts que se utilizaron para este proyecto.
